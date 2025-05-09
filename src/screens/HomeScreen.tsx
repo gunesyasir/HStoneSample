@@ -1,22 +1,53 @@
 import * as React from 'react';
-import {View, Text, Pressable} from 'react-native';
+import {
+  Text,
+  FlatList,
+  ActivityIndicator,
+  View,
+  StyleSheet,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Routes, RootStackParamList} from '../navigation/Routes.ts';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useFetchAllCards} from '../hooks/useFetchAllCards.ts';
 
-type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, Routes.Home>;
+type HomeScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  Routes.Home
+>;
 
 export default function HomeScreen() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
+  const {data, isLoading, error} = useFetchAllCards();
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+  if (error) {
+    return <Text>Error: {error.message}</Text>;
+  }
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Home Screen</Text>
-      <Pressable onPress={() => navigation.navigate(Routes.Detail, { title: 'Detay Sayfası' })} style={({ pressed }) => ({
-        backgroundColor: pressed ? 'lightgray' : 'white',
-      })}>
-        <Text>Go to Detail Screen</Text>
-      </Pressable>
-    </View>
+    <FlatList
+      data={data}
+      contentContainerStyle={{flexGrow: 1, padding: 20, gap: 8}}
+      keyExtractor={item => item.cardId.toString()}
+      renderItem={({item}) => (
+        <Text>{item.name}</Text>
+      )}
+    />
   );
 }
+
+const styles = StyleSheet.create({
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+  },
+});
