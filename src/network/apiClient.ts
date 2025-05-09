@@ -18,9 +18,8 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(requestInterceptor, requestErrorInterceptor);
-instance.interceptors.response.use(
-  responseInterceptor,
-  responseErrorInterceptor,
+instance.interceptors.response.use(responseInterceptor, error =>
+  responseErrorInterceptor(error, instance),
 );
 
 export const apiClient = {

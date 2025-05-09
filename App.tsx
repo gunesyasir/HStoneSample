@@ -6,6 +6,7 @@ import {
   createStaticNavigation,
 } from '@react-navigation/native';
 import RootStack from './src/navigation/RootStack';
+import AppStateComponent from './src/components/AppStateComponent';
 
 const LightAppTheme = {
   ...DefaultTheme,
@@ -31,5 +32,10 @@ export default function App() {
   const scheme = useColorScheme();
   const theme = scheme === 'dark' ? DarkAppTheme : LightAppTheme;
 
-  return <Navigation theme={theme} />;
+  return (
+    <>
+      <Navigation theme={theme} />
+      <AppStateComponent />
+    </>
+  );
 }

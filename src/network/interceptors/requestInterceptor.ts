@@ -1,8 +1,11 @@
 import {InternalAxiosRequestConfig} from 'axios';
+import {useNetworkStore} from '../../state/useNetworkStore.ts';
 
 export const requestInterceptor = (
   config: InternalAxiosRequestConfig,
 ): InternalAxiosRequestConfig => {
+  useNetworkStore.getState().setLoading(true);
+
   console.log('📤 Request:', {
     url: config.url,
     method: config.method,
@@ -14,6 +17,8 @@ export const requestInterceptor = (
 };
 
 export const requestErrorInterceptor = (error: any): Promise<any> => {
+  useNetworkStore.getState().setLoading(false);
+
   console.error('❌ Request Error: ', error);
   return Promise.reject(error);
 };
