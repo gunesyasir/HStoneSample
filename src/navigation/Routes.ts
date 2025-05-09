@@ -1,3 +1,5 @@
+import {HearthstoneCard} from '../model/HearthStoneCard.ts';
+
 export enum Routes {
   Home = 'Home',
   Detail = 'Detail',
@@ -5,5 +7,5 @@ export enum Routes {
 
 export type RootStackParamList = {
   [Routes.Home]: undefined;
-  [Routes.Detail]: {title: string};
+  [Routes.Detail]: {item: HearthstoneCard};
 };
