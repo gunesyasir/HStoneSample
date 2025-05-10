@@ -1,21 +1,15 @@
 import * as React from 'react';
-import {View, Text, FlatList} from 'react-native';
-import {RouteProp, useRoute} from '@react-navigation/native';
-import {RootStackParamList, Routes} from '../navigation/Routes.ts';
-import {useCardStore} from '../state/useCardStore.ts';
-
-type ScreenRouteProp = RouteProp<RootStackParamList, Routes.Detail>;
+import {View, Text, FlatList, StyleSheet} from 'react-native';
+import {useDetailScreenData} from '../hooks/useDetailScreenData.ts';
 
 export default function DetailScreen() {
-  const route = useRoute<ScreenRouteProp>();
-  const {category} = route.params;
-  const {cardsByCategory} = useCardStore();
+  const {cards} = useDetailScreenData();
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={styles.container}>
       <FlatList
-        data={cardsByCategory[category]}
-        contentContainerStyle={{flexGrow: 1, padding: 20, gap: 8}}
+        data={cards}
+        contentContainerStyle={styles.contentContainer}
         keyExtractor={item => item.cardId}
         renderItem={({item}) => (
           <View
@@ -32,3 +26,8 @@ export default function DetailScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {flex: 1, alignItems: 'center', justifyContent: 'center'},
+  contentContainer: {flexGrow: 1, padding: 20, gap: 8},
+});

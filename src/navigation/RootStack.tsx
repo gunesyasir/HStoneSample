@@ -9,7 +9,7 @@ const RootStack = createNativeStackNavigator({
     Home: {
       screen: HomeScreen,
       options: {
-        title: 'AnaSayfa',
+        title: '',
       },
     },
     Detail: {

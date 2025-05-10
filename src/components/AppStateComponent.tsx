@@ -15,7 +15,7 @@ export default function AppStateComponent() {
   if (isLoading) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#0000ff"  testID={'activityIndicator'}/>
       </View>
     );
   }
@@ -25,10 +25,10 @@ export default function AppStateComponent() {
       <View style={styles.centered}>
         {hasRetry ? (
           <Pressable onPress={triggerRetry}>
-            <Text>Yeniden Dene"</Text>
+            <Text>Try Again</Text>
           </Pressable>
         ) : (
-          <Text style={styles.errorText}>Error: {errorMessage}</Text>
+          <Text testID={'errorMessage'} style={styles.errorText}>Error: {errorMessage}</Text>
         )}
       </View>
     );
